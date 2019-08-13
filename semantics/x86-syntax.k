@@ -105,9 +105,7 @@ module X86-SYNTAX
 
   syntax Operands ::= List{Operand, ","} [klabel(operandlist)]
 
-  syntax Operand ::=    Imm
-                       | Mem
-                       | Register
+  syntax Operand ::=     InstructionOperand
                        | MemOffset
                        | X86Id
                        | Builtin
@@ -126,15 +124,12 @@ module X86-SYNTAX
                         *  which requires MInt to be a subSort of Operand.  
                         */
                        | MInt
-//                     | Mm
-//                     | St
-//                     | Memoffs
-//                     | Sreg
 
   syntax MemOffset ::= memOffset ( MInt )
 
-//syntax Simpleoperand ::= Register | Imm | MemOffset
-//syntax Operand ::= Simpleoperand
+  syntax InstructionOperand ::= Register | Imm | Mem
+  syntax InstructionOperands ::= List{InstructionOperand, ","}	[klabel(operandlist)]
+  syntax Operands ::= InstructionOperands
 
   syntax Register ::= Rh
                     | R8
@@ -144,6 +139,7 @@ module X86-SYNTAX
                     | Xmm
                     | Ymm
                     | Mm
+                    | Flag
 //  syntax Memoffs ::= Offset
 //                   | Sreg ":" Offset
   syntax Offset ::= Int
@@ -154,7 +150,7 @@ module X86-SYNTAX
    * `Mem` can be evaluated to a KResult `MemOffset`
    * Hence making MemOffset a subsort of Mem. 
    */
-  syntax Mem ::= MemOffset             
+  // syntax Mem ::= MemOffset             
   syntax Mem ::=  "(" Rip ")"
                | X86Id "(" Rip ")"
                | X86Id "+" Int "(" Rip ")"
@@ -336,6 +332,14 @@ module X86-SYNTAX
                | "%ymm13"
                | "%ymm14"
                | "%ymm15"
+
+  syntax Flag ::= "%cf"
+                | "%df"
+                | "%pf"
+                | "%af"
+                | "%zf"
+                | "%sf"
+                | "%of"
     
   syntax Opcode ::=  "adcb"
                   | "adcl"

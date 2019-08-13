@@ -299,22 +299,22 @@ module X86-MEMORY
   /*@
     Load memory Nbits:Int bits from Address represented AddrMI:MInt
   */
-  rule <k>
-    //loadFromMemory(AddrMI:MInt, Nbits:Int) =>
-    loadFromMemory(ptr(L:MemLoc, AddrMI:MInt), Nbits:Int) =>
-      fromMemValue(mRead(L, uvalueMInt(AddrMI) *Int 8, Nbits /Int 8, 8), Nbits)
-  ... </k>
-    //<stackbase> stackBaseInfo( L:MemLoc, _:K) </stackbase>
-      requires Nbits %Int 8 ==Int 0
+  //rule <k>
+  //  //loadFromMemory(AddrMI:MInt, Nbits:Int) =>
+  //  loadFromMemory(ptr(L:MemLoc, AddrMI:MInt), Nbits:Int) =>
+  //    fromMemValue(mRead(L, uvalueMInt(AddrMI) *Int 8, Nbits /Int 8, 8), Nbits)
+  //... </k>
+  //  //<stackbase> stackBaseInfo( L:MemLoc, _:K) </stackbase>
+  //    requires Nbits %Int 8 ==Int 0
 
   /*@
     Store 'Val' in 'Nbits' of memory starting at address 'AddrMI'
   */
-  rule <k>
-    //storeToMemory(Val:StoreVal, AddrMI:MInt, Nbits:Int) => mWrite(L, uvalueMInt(AddrMI) *Int 8, toMemValue(Val, Nbits))
-    storeToMemory(Val:StoreVal, ptr(L:MemLoc, AddrMI:MInt), Nbits:Int) => mWrite(L, uvalueMInt(AddrMI) *Int 8, toMemValue(Val, Nbits))
-  ... </k>
-    //<stackbase> stackBaseInfo( L:MemLoc, _:K) </stackbase>
-      requires Nbits %Int 8 ==Int 0
+  //rule <k>
+  //  //storeToMemory(Val:StoreVal, AddrMI:MInt, Nbits:Int) => mWrite(L, uvalueMInt(AddrMI) *Int 8, toMemValue(Val, Nbits))
+  //  storeToMemory(Val:StoreVal, ptr(L:MemLoc, AddrMI:MInt), Nbits:Int) => mWrite(L, uvalueMInt(AddrMI) *Int 8, toMemValue(Val, Nbits))
+  //... </k>
+  //  //<stackbase> stackBaseInfo( L:MemLoc, _:K) </stackbase>
+  //    requires Nbits %Int 8 ==Int 0
 
 endmodule

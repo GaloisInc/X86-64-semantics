@@ -137,12 +137,12 @@ module FLOAT-CONVERSIONS
   MIntSegmentsToFloatDenormalized(Mlen, Elen, S, 0, M)
 
   syntax Float ::= MInt2Float(MInt, Int, Int) [function] // Value, Mantissa, Exponent
-  rule MInt2Float(MI, M, E) => MIntToFloatImpl(M, E, 
-    MIntToSignBit(MI),
-    MIntToExponentBits(MI, E),
-    MIntToMantissaBits(MI, E, M)
-  )
-  requires bitwidthMInt(MI) ==Int M +Int E andBool M >=Int 2 andBool E >=Int 2
+  //rule MInt2Float(MI, M, E) => MIntToFloatImpl(M, E, 
+  //  MIntToSignBit(MI),
+  //  MIntToExponentBits(MI, E),
+  //  MIntToMantissaBits(MI, E, M)
+  //)
+  //requires bitwidthMInt(MI) ==Int M +Int E andBool M >=Int 2 andBool E >=Int 2
 
   syntax MInt ::= Float2MInt(Float, Int) [function]
 

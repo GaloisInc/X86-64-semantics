@@ -18,8 +18,8 @@ module X86-ABSTRACT-SEMANTICS
   rule getMIntVal(ptr(L:MemLoc, MI:MInt)) => MI
 
   syntax MInt ::= "convertPV" "(" MInt ")" [function]
-  rule convertPV(PV:PointerVal) => getMIntVal(PV)
-  rule convertPV(MI:MInt) => MI  [owise]
+  //rule convertPV(PV:PointerVal) => getMIntVal(PV)
+  //rule convertPV(MI:MInt) => MI  [owise]
 
   //rule mi(W:Int, svalueMInt(PV:PointerVal)) => ptr(getMemLoc(PV), mi(W, svalueMInt(getMIntVal(PV))))
 
@@ -111,67 +111,67 @@ module X86-ABSTRACT-SEMANTICS
     instrcution.    
   */
 
-  // rip
-  rule <k>  L:X86Id (%rip) =>  L:X86Id + 0 (%rip) ...</k>
-  rule <k>  L:X86Id + I:Int (%rip) => 
-    memOffset( ptr(getMemLoc(LoadAddr), addMInt( getMIntVal(LoadAddr), mi(bitwidthMInt(LoadAddr), I))))
-  ...</k>
-      <regstate> RSMap </regstate>
-      <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
+  //// rip
+  //rule <k>  L:X86Id (%rip) =>  L:X86Id + 0 (%rip) ...</k>
+  //rule <k>  L:X86Id + I:Int (%rip) => 
+  //  memOffset( ptr(getMemLoc(LoadAddr), addMInt( getMIntVal(LoadAddr), mi(bitwidthMInt(LoadAddr), I))))
+  //...</k>
+  //    <regstate> RSMap </regstate>
+  //    <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
 
-  // (%r64)    
-  rule <k> (R1:R64):Mem => 0 (R1:R64) ...</k>
-  rule <k> I:Int (R1:R64):Mem => 
-    memOffset( addMInt(mi(64, I), addMInt(getRegisterValue(R1, RSMap), mulMInt(mi(64, 0), mi(64, 1)))))
-  ...</k>
-      <regstate> RSMap </regstate>
+  //// (%r64)    
+  //rule <k> (R1:R64):Mem => 0 (R1:R64) ...</k>
+  //rule <k> I:Int (R1:R64):Mem => 
+  //  memOffset( addMInt(mi(64, I), addMInt(getRegisterValue(R1, RSMap), mulMInt(mi(64, 0), mi(64, 1)))))
+  //...</k>
+  //    <regstate> RSMap </regstate>
 
-  rule <k>  L:X86Id (R1:R64):Mem =>  L:X86Id + 0 (R1:R64):Mem ...</k>
-  rule <k>  L:X86Id + I:Int (R1:R64):Mem => 
-    memOffset( addMInt(addMInt(LoadAddr, mi(bitwidthMInt(LoadAddr), I)), addMInt(getRegisterValue(R1, RSMap), mulMInt(mi(64, 0), mi(64, 1)))))
-  ...</k>
-      <regstate> RSMap </regstate>
-      <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
+  //rule <k>  L:X86Id (R1:R64):Mem =>  L:X86Id + 0 (R1:R64):Mem ...</k>
+  //rule <k>  L:X86Id + I:Int (R1:R64):Mem => 
+  //  memOffset( addMInt(addMInt(LoadAddr, mi(bitwidthMInt(LoadAddr), I)), addMInt(getRegisterValue(R1, RSMap), mulMInt(mi(64, 0), mi(64, 1)))))
+  //...</k>
+  //    <regstate> RSMap </regstate>
+  //    <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
 
-  // (, %r64)                                    
-  rule <k> (, R2:R64):Mem         => 0 (, R2, 1) ...</k>
-  rule <k> I:Int (, R2:R64):Mem   => I (, R2, 1) ...</k>
-  rule <k> ( , R2:R64, S:Int):Mem => 0 (, R2, S) ...</k>
-  rule <k> I:Int (, R2:R64):Mem   => I (, R2, 1) ...</k>
-  rule <k> I:Int (, R2:R64, S:Int):Mem => 
-    memOffset( addMInt(mi(64, I), addMInt(mi(64, 0), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
-  ...</k>
-      <regstate> RSMap </regstate>
+  //// (, %r64)                                    
+  //rule <k> (, R2:R64):Mem         => 0 (, R2, 1) ...</k>
+  //rule <k> I:Int (, R2:R64):Mem   => I (, R2, 1) ...</k>
+  //rule <k> ( , R2:R64, S:Int):Mem => 0 (, R2, S) ...</k>
+  //rule <k> I:Int (, R2:R64):Mem   => I (, R2, 1) ...</k>
+  //rule <k> I:Int (, R2:R64, S:Int):Mem => 
+  //  memOffset( addMInt(mi(64, I), addMInt(mi(64, 0), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
+  //...</k>
+  //    <regstate> RSMap </regstate>
 
-  rule <k>  L:X86Id (, R2:R64):Mem         =>  L + 0  (, R2, 1) ...</k>
-  rule <k>  L:X86Id ( , R2:R64, S:Int):Mem =>  L + 0  (, R2, S) ...</k>
-  rule <k>  L:X86Id + I:Int (, R2:R64, S:Int):Mem => 
-    memOffset( addMInt(
-          addMInt(LoadAddr, mi(bitwidthMInt(LoadAddr), I)), 
-          addMInt(mi(64, 0), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
-  ...</k>
-      <regstate> RSMap </regstate>
-      <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
+  //rule <k>  L:X86Id (, R2:R64):Mem         =>  L + 0  (, R2, 1) ...</k>
+  //rule <k>  L:X86Id ( , R2:R64, S:Int):Mem =>  L + 0  (, R2, S) ...</k>
+  //rule <k>  L:X86Id + I:Int (, R2:R64, S:Int):Mem => 
+  //  memOffset( addMInt(
+  //        addMInt(LoadAddr, mi(bitwidthMInt(LoadAddr), I)), 
+  //        addMInt(mi(64, 0), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
+  //...</k>
+  //    <regstate> RSMap </regstate>
+  //    <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
 
-  // (%r64, %r64)                                
-  rule <k> (R1:R64, R2:R64):Mem => 0 (R1, R2, 1) ...</k>
-  rule <k> (R1:R64, R2:R64, S:Int):Mem => 0 (R1, R2, S) ...</k>
-  rule <k> I:Int (R1:R64, R2:R64):Mem => I (R1, R2, 1) ...</k>
-  rule <k> I:Int (R1:R64, R2:R64, S:Int):Mem => 
-    memOffset( addMInt(mi(64, I), addMInt(getRegisterValue(R1, RSMap), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
-  ...</k>
-      <regstate> RSMap </regstate>
+  //// (%r64, %r64)                                
+  //rule <k> (R1:R64, R2:R64):Mem => 0 (R1, R2, 1) ...</k>
+  //rule <k> (R1:R64, R2:R64, S:Int):Mem => 0 (R1, R2, S) ...</k>
+  //rule <k> I:Int (R1:R64, R2:R64):Mem => I (R1, R2, 1) ...</k>
+  //rule <k> I:Int (R1:R64, R2:R64, S:Int):Mem => 
+  //  memOffset( addMInt(mi(64, I), addMInt(getRegisterValue(R1, RSMap), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
+  //...</k>
+  //    <regstate> RSMap </regstate>
 
-  rule <k>  L:X86Id (R1:R64, R2:R64):Mem           =>  L + 0 (R1, R2, 1) ...</k>
-  rule <k>  L:X86Id (R1:R64, R2:R64, S:Int):Mem    =>  L + 0 (R1, R2, S) ...</k>
-  rule <k>  L:X86Id + I:Int (R1:R64, R2:R64):Mem    =>  L + I (R1, R2, 1) ...</k>
-  rule <k>  L:X86Id + I:Int (R1:R64, R2:R64, S:Int):Mem => 
-    memOffset( addMInt(
-          addMInt(LoadAddr, mi(bitwidthMInt(LoadAddr), I)), 
-          addMInt(getRegisterValue(R1, RSMap), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
-  ...</k>
-      <regstate> RSMap </regstate>
-      <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
+  //rule <k>  L:X86Id (R1:R64, R2:R64):Mem           =>  L + 0 (R1, R2, 1) ...</k>
+  //rule <k>  L:X86Id (R1:R64, R2:R64, S:Int):Mem    =>  L + 0 (R1, R2, S) ...</k>
+  //rule <k>  L:X86Id + I:Int (R1:R64, R2:R64):Mem    =>  L + I (R1, R2, 1) ...</k>
+  //rule <k>  L:X86Id + I:Int (R1:R64, R2:R64, S:Int):Mem => 
+  //  memOffset( addMInt(
+  //        addMInt(LoadAddr, mi(bitwidthMInt(LoadAddr), I)), 
+  //        addMInt(getRegisterValue(R1, RSMap), mulMInt(getRegisterValue(R2, RSMap), mi(64, S)))))
+  //...</k>
+  //    <regstate> RSMap </regstate>
+  //    <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
   /*@
     Size of instructions.
   rule getISize((OpC:Opcode OpR:Operands):Instruction) => 1
@@ -375,26 +375,26 @@ module X86-ABSTRACT-SEMANTICS
   */
   rule <k> setRegisterValue(memLoadValue( MI:MInt ):MemLoadValue, R:Register) => setRegisterValue(MI, R)  ...</k>
 
-  rule <k> setRegisterValue(MI64:MInt, R:R64) => .  ...</k>
-    <regstate>... convToRegKeys(R) |-> (_ => MI64) ...</regstate>
+  //rule <k> setRegisterValue(MI64:MInt, R:R64) => .  ...</k>
+  //  <regstate>... convToRegKeys(R) |-> (_ => MI64) ...</regstate>
 
-  rule <k> setRegisterValue(MI32:MInt, R:R32) => .  ...</k>
-    <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI32,  0)) ...</regstate>
+  //rule <k> setRegisterValue(MI32:MInt, R:R32) => .  ...</k>
+  //  <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI32,  0)) ...</regstate>
 
-  rule <k> setRegisterValue(MI16:MInt, R:R16) => .  ...</k>
-    <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI16,  0)) ...</regstate>
+  //rule <k> setRegisterValue(MI16:MInt, R:R16) => .  ...</k>
+  //  <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI16,  0)) ...</regstate>
 
-  rule <k> setRegisterValue(MI8:MInt, R:R8) => .  ...</k>
-    <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI8,   0)) ...</regstate>
+  //rule <k> setRegisterValue(MI8:MInt, R:R8) => .  ...</k>
+  //  <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI8,   0)) ...</regstate>
 
-  rule <k> setRegisterValue(MI8:MInt, R:Rh) => .  ...</k>
-    <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI8,   8)) ...</regstate>
+  //rule <k> setRegisterValue(MI8:MInt, R:Rh) => .  ...</k>
+  //  <regstate>... convToRegKeys(R) |-> ( MI64 => plugInMask(MI64,  MI8,   8)) ...</regstate>
 
-  rule <k> setRegisterValue(MI128:MInt, X:Xmm) => .  ...</k>
-    <regstate>... convToRegKeys(X) |-> ( MI256 => plugInMask(MI256, MI128, 0)) ...</regstate>
+  //rule <k> setRegisterValue(MI128:MInt, X:Xmm) => .  ...</k>
+  //  <regstate>... convToRegKeys(X) |-> ( MI256 => plugInMask(MI256, MI128, 0)) ...</regstate>
 
-  rule <k> setRegisterValue(MI256:MInt, Y:Ymm) => .  ...</k>
-    <regstate>... convToRegKeys(Y) |-> (_ => MI256) ...</regstate>
+  //rule <k> setRegisterValue(MI256:MInt, Y:Ymm) => .  ...</k>
+  //  <regstate>... convToRegKeys(Y) |-> (_ => MI256) ...</regstate>
 /*
   rule <k> setRegisterValue(MI64:MInt, M:Mm) => .  ...</k>
     <regstate>... convToRegKeys(M) |-> ( _ => MI64) ...</regstate>
@@ -414,17 +414,17 @@ module X86-ABSTRACT-SEMANTICS
   /*@
     Getting the registers values according to the register variants.
   */
-  rule getRegisterValue(R:R8,  RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 8, 0)
-  rule getRegisterValue(R:R16, RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 16, 0)
-  rule getRegisterValue(R:R32, RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
-  rule getRegisterValue(R:R64, RSMap)  =>  {RSMap[convToRegKeys(R)]}:>MInt
-  rule getRegisterValue(R:Rh,  RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 8, 8)
-  rule getRegisterValue(X:Xmm, RSMap)  =>  extractMask({RSMap[convToRegKeys(X)]}:>MInt, 128, 0)
-  rule getRegisterValue(Y:Ymm, RSMap)  =>  {RSMap[convToRegKeys(Y)]}:>MInt
+  //rule getRegisterValue(R:R8,  RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 8, 0)
+  //rule getRegisterValue(R:R16, RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 16, 0)
+  //rule getRegisterValue(R:R32, RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 32, 0)
+  //rule getRegisterValue(R:R64, RSMap)  =>  {RSMap[convToRegKeys(R)]}:>MInt
+  //rule getRegisterValue(R:Rh,  RSMap)  =>  extractMask({RSMap[convToRegKeys(R)]}:>MInt, 8, 8)
+  //rule getRegisterValue(X:Xmm, RSMap)  =>  extractMask({RSMap[convToRegKeys(X)]}:>MInt, 128, 0)
+  //rule getRegisterValue(Y:Ymm, RSMap)  =>  {RSMap[convToRegKeys(Y)]}:>MInt
 /*
   rule getRegisterValue(M:Mm,  RSMap)  =>  {RSMap[convToRegKeys(M)]}:>MInt
 */
-  rule getParentValue(R:Register, RSMap) => getRegisterValue(convSubRegsToRegs(R), RSMap)
+  //rule getParentValue(R:Register, RSMap) => getRegisterValue(convSubRegsToRegs(R), RSMap)
 
   /*@
     handleImmediateWithSignExtend(Imm, M, N): Compute a MInt corresponding

@@ -10,6 +10,7 @@ require "x86-mint-wrapper.k"
 require "common/common.k"
 require "x86-builtin.k"
 require "x86-c-library.k"
+require "x86-lean.k"
 
 module X86-SEMANTICS
   imports X86-LOADER
@@ -24,4 +25,5 @@ module X86-SEMANTICS
   imports COMMON
   imports X86-BUILTIN
   imports X86-C-LIBRARY
+  imports X86-LEAN
 endmodule

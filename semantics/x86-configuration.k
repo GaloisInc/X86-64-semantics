@@ -4,6 +4,7 @@ require "common/common-memory.k"
 require "x86-memory.k"
 require "x86-env-init.k"
 require "x86-mint-wrapper.k"
+require "x86-flag-checks-syntax.k"
 
 module X86-CONFIGURATION
   imports X86-SYNTAX
@@ -14,6 +15,7 @@ module X86-CONFIGURATION
   imports MINT-WRAPPER-SYNTAX
   imports X86-LOADER-SYNTAX
   imports COMMON-C-LIBRARY-CONFIGURATION
+  imports X86-FLAG-CHECKS-SYNTAX
 
 
   // configuration <T>
@@ -48,6 +50,8 @@ module X86-CONFIGURATION
         <bssbase>   bssBaseInfo(.K , .K , .K ) </bssbase>
       </stack>
     </memstate>
+
+    <leanmemory> .Map </leanmemory>
 
     <environment>
       <argc> .K </argc>

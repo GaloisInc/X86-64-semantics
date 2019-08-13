@@ -1400,8 +1400,8 @@ module MINT-WRAPPER
   syntax MInt ::= rolHelper(MInt, Int, Int) [function]
   syntax MInt ::= rorHelper(MInt, Int, Int) [function]
 
-  rule rol(MI1:MInt, MI2:MInt) => rolHelper(MI1, uvalueMInt(MI2),  0)
-  rule ror(MI1:MInt, MI2:MInt) => rorHelper(MI1, uvalueMInt(MI2),  0)
+  //rule rol(MI1:MInt, MI2:MInt) => rolHelper(MI1, uvalueMInt(MI2),  0)
+  //rule ror(MI1:MInt, MI2:MInt) => rorHelper(MI1, uvalueMInt(MI2),  0)
 
   rule rolHelper(MI:MInt, N:Int, N:Int) => MI
   rule rolHelper(MI:MInt, N:Int, M:Int) =>
